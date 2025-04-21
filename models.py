@@ -45,3 +45,17 @@ class Enrollments(Base):
     student_id: Mapped[int] = mapped_column(sqlalchemy.Integer, nullable=False)
     course_id: Mapped[int] = mapped_column(sqlalchemy.Integer, nullable=False)
     grade: Mapped[str] = mapped_column(sqlalchemy.CHAR(1), nullable=True)
+
+
+# DECIMAL avoids 0.1 + 0.2 = 0.30...04 rounding error bugs
+# ^ These can happen because computers store decimal numbers
+# as binary and numbers like 1/10 and 1/5 cannot be represented
+# exactly in binary. In binary 0.1 is a repeating fraction. We
+# might see this rounding error bug if we used FLOAT.
+class CourseCosts(Base):
+    __tablename__ = "course_costs"
+    cost_id: Mapped[int] = mapped_column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    course_id: Mapped[int] = mapped_column(sqlalchemy.SmallInteger, sqlalchemy.ForeignKey("courses.course_id"), nullable=False)
+    cost_per_credit: Mapped[float] = mapped_column(sqlalchemy.DECIMAL(8, 2), nullable=False)
+    currency: Mapped[str] = mapped_column(sqlalchemy.CHAR(3), default="GBP")
+    effective_date: Mapped[str] = mapped_column(sqlalchemy.DATE, nullable=False)

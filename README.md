@@ -2,7 +2,7 @@
 
 This repository can be used to add fake data about university studies to a MySQL database.
 
-Running the alembic migrations will create four new database tables, instructors, courses, students, and enrollments which can then be populated with fake data via a Python script.
+Running the alembic migrations will create four new database tables, instructors, courses, students, enrollments, and course_costs which can then be populated with fake data via a Python script.
 
 ## Requirements
 
